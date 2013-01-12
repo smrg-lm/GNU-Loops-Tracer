@@ -1,3 +1,4 @@
+// copyright 2013 Lucas Samaruga samarugalucas@gmail.com
 
 Circle {
 	var <center;
@@ -118,11 +119,12 @@ KeyABC {
 		dict.do({ arg i, j;
 			if(i == trace.list.asArray, { ^(j+$a.ascii).asAscii });
 		});
-		^nil;
+		//^nil;
+		^$ ;
 	}
 }
 
-CKeyView {
+KeyView {
 	var view; // = UserView.new(bounds: Rect(0, 0, 400, 400));
 	var initPos; // = Point(view.bounds.width/2, view.bounds.height/2);
 	var numPoints; // = 8;
@@ -134,18 +136,18 @@ CKeyView {
 	var trace;
 	var abc;
 
-	*new { arg bounds = Rect(0, 0, 400, 400);
-		^super.new.init(bounds);
+	*new { arg bounds = Rect(0, 0, 400, 400), prad = 25;
+		^super.new.init(bounds, prad);
 	}
 
-	init { arg bounds;
+	init { arg bounds, pr;
 		view = UserView.new(bounds: bounds);
 		initPos = nil;
 		numPoints = 8;
 		startAngle = 0;
 		maxDist = 100;
-		prad = 20;
-		points = nil;
+		prad = pr;
+		points = [];
 		trace = KeyTrace.new;
 		abc = KeyABC.new(numPoints);
 		trace.traceCompleteAction = { arg trace;
@@ -207,5 +209,5 @@ CKeyView {
 }
 
 /*
-CKeyView.new;
+KeyView.new(prad: 38);
 */
