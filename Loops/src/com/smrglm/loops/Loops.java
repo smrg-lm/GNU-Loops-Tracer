@@ -85,8 +85,10 @@ public class Loops extends Activity {
 					view.traceCompleteAction();
 					list.clear();
 				}
+				list.add(id);
+			} else if(list.isEmpty()) {
+				list.add(id);
 			}
-			list.add(id);
 		}
 	}
 	
@@ -96,13 +98,87 @@ public class Loops extends Activity {
 		
 		public KeyABC() {
 			dict = new Vector<Vector<Integer>>();
+			Vector<Integer> auxv;
+			
+			// loops simples a la derecha
+			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(1 + i);
+				auxv.add(2 + i);
+				dict.add(auxv);
+			}
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(8);
+			auxv.add(1);
+			dict.add(auxv);
+			
+			// loops simples a la izquierda
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(1);
+			auxv.add(8);
+			dict.add(auxv);
+			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(8 - i);
+				auxv.add(7 - i);
+				dict.add(auxv);
+			}
+			
+			// loops dobles a la derecha
+			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(1 + i);
+				auxv.add(2 + i);
+				auxv.add(3 + i);
+				dict.add(auxv);
+			}
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(7);
+			auxv.add(8);
+			auxv.add(1);
+			dict.add(auxv);
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(8);
+			auxv.add(1);
+			auxv.add(2);
+			dict.add(auxv);
+			
+			// loops dobles a la izquierda
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(1);
+			auxv.add(8);
+			auxv.add(7);
+			dict.add(auxv);
+			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(8 - i);
+				auxv.add(7 - i);
+				auxv.add(6 - i);
+				dict.add(auxv);
+			}
+			auxv = new Vector<Integer>();
+			auxv.add(0);
+			auxv.add(2);
+			auxv.add(1);
+			auxv.add(8);
+			dict.add(auxv);
 		}
 		
 		public int atTrace(KeyTrace trace) {
 			Iterator<Vector<Integer>> it = dict.iterator();
 			while(it.hasNext()) {
 				Vector<Integer> aux = it.next();
-				if(aux == trace.list) {
+				if(aux.equals(trace.list)) {
+					//globalText = "nxp: " + aux + "tr: " + trace.list;
 					return (dict.indexOf(aux) + 97);
 				}
 			}
@@ -110,18 +186,20 @@ public class Loops extends Activity {
 		}
 	}
 	
+	static String globalText = "";
+	
 	private static class KeyView extends View {
 		private KeyCircle initPos;
 		private int numPoints = 8;
 		private double startAngle = 0;
-		private double maxDist = 100;
-		private double prad = 30;
+		private double maxDist = 150;
+		private double prad = 55;
 		private Vector<KeyCircle> points;
 		private KeyTrace trace;
 		private KeyABC abc;
 		private Paint circlePaint;
 		private Paint textPaint;
-		private String text;
+		public String text;
 		
 		public KeyView(Context context) {
     		super(context);
@@ -147,6 +225,7 @@ public class Loops extends Activity {
     	@Override
     	protected void onDraw(Canvas canvas) {
     		canvas.drawText(text, 0, 30, textPaint);
+    		//canvas.drawText(globalText, 0, 30, textPaint);
     		Iterator<KeyCircle> it = points.iterator();
     		while(it.hasNext()) {
     			KeyCircle aux = it.next();
@@ -165,13 +244,13 @@ public class Loops extends Activity {
     			auxPoint = pointFromPos(event.getX(), event.getY());
     			if(auxPoint != null) {
     				trace.add(auxPoint.id);
-        			text = " id = " + auxPoint.id + "; x = " + (int)auxPoint.x + "; y = " + (int)auxPoint.y + ";";
+        			//text = " id = " + auxPoint.id + "; x = " + (int)auxPoint.x + "; y = " + (int)auxPoint.y + ";";
     			};
     		} else if(event.getAction() == MotionEvent.ACTION_MOVE) {
     			auxPoint = pointFromPos(event.getX(), event.getY());
     			if(auxPoint != null) {
     				trace.add(auxPoint.id);
-    				text = " id = " + auxPoint.id + "; x = " + (int)auxPoint.x + "; y = " + (int)auxPoint.y + ";";
+    				//text = " id = " + auxPoint.id + "; x = " + (int)auxPoint.x + "; y = " + (int)auxPoint.y + ";";
     			};
     		} else {
     			initPos = null;
@@ -218,7 +297,18 @@ public class Loops extends Activity {
     	
     	// callback...
     	public void traceCompleteAction() {
-    		abc.atTrace(trace);
+    		Vector<Integer> space = new Vector<Integer>();
+    		space.add(0); space.add(3);
+    		//Vector<Integer> delback = new Vector<Integer>();
+    		//delback.add(0); delback.add(7);
+    		Vector<Integer> enter = new Vector<Integer>();
+    		enter.add(0); enter.add(3); enter.add(2); enter.add(3);
+    		
+    		Vector<Integer> auxt = trace.list;
+    		if(auxt.equals(space)) text = text + " ";
+    		//else if(auxt.equals(delback)) text = text + '\r';
+    		else if(auxt.equals(enter)) text = "";
+    		else text = text + (char)abc.atTrace(trace);
     	}
 	}
 	
