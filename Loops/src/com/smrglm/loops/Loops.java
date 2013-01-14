@@ -115,18 +115,18 @@ public class Loops extends Activity {
 			dict.add(auxv);
 			
 			// loops simples a la izquierda
+			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(2 + i);
+				auxv.add(1 + i);
+				dict.add(auxv);
+			}
 			auxv = new Vector<Integer>();
 			auxv.add(0);
 			auxv.add(1);
 			auxv.add(8);
 			dict.add(auxv);
-			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
-				auxv = new Vector<Integer>();
-				auxv.add(0);
-				auxv.add(8 - i);
-				auxv.add(7 - i);
-				dict.add(auxv);
-			}
 			
 			// loops dobles a la derecha
 			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
@@ -151,20 +151,20 @@ public class Loops extends Activity {
 			dict.add(auxv);
 			
 			// loops dobles a la izquierda
+			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
+				auxv = new Vector<Integer>();
+				auxv.add(0);
+				auxv.add(3 + i);
+				auxv.add(2 + i);
+				auxv.add(1 + i);
+				dict.add(auxv);
+			}
 			auxv = new Vector<Integer>();
 			auxv.add(0);
 			auxv.add(1);
 			auxv.add(8);
 			auxv.add(7);
 			dict.add(auxv);
-			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
-				auxv = new Vector<Integer>();
-				auxv.add(0);
-				auxv.add(8 - i);
-				auxv.add(7 - i);
-				auxv.add(6 - i);
-				dict.add(auxv);
-			}
 			auxv = new Vector<Integer>();
 			auxv.add(0);
 			auxv.add(2);
@@ -246,6 +246,7 @@ public class Loops extends Activity {
     				trace.add(auxPoint.id);
         			//text = " id = " + auxPoint.id + "; x = " + (int)auxPoint.x + "; y = " + (int)auxPoint.y + ";";
     			};
+    			this.invalidate();
     		} else if(event.getAction() == MotionEvent.ACTION_MOVE) {
     			auxPoint = pointFromPos(event.getX(), event.getY());
     			if(auxPoint != null) {
@@ -256,9 +257,10 @@ public class Loops extends Activity {
     			initPos = null;
     			calcPoints();
     			trace.add(-1); // limpia y deber'ia llamar a la accion
+    			this.invalidate();
     		}
     		
-    		this.invalidate();
+    		//this.invalidate();
     		return true;
     	}
     	
@@ -309,6 +311,7 @@ public class Loops extends Activity {
     		//else if(auxt.equals(delback)) text = text + '\r';
     		else if(auxt.equals(enter)) text = "";
     		else text = text + (char)abc.atTrace(trace);
+    		this.invalidate();
     	}
 	}
 	
