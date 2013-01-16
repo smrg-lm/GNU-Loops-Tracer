@@ -67,57 +67,61 @@ etc...
 [0, 1] [nil | 0]         makes a simple loop.
 [0, 5] [nil | 0]         makes a simple loop in opposite direction.
 
-There are many possible traces. Simple and long loops are 16 each, 32 in total,
-enough to the basic latin characters of many languages.
+There are many possible traces. Simple and long loops are 16 each, 32 in
+total, enough to the basic latin characters of many languages.
 
-Direction changing loops adds a huge amount of possible trace adding 32 (counting
-the opposite direction) possibilities each, they can be used to special
-characters and modifiers like enter, return, etc...
+Direction changing loops adds a huge amount of possible trace adding 32
+(counting the opposite direction) possibilities each, they can be used to
+special characters and modifiers like enter, return, etc...
 
-Simple loops are not really loops but the simplest possible trace (or very thin
-ellipses), they could be used for the most important special characters or
-modifiers (as the direction changing loops), there are only 8 simple loops.
+Simple loops are not really loops but the simplest possible trace (or very
+thin ellipses), they could be used for the most important special characters
+or modifiers (as the direction changing loops), there are only 8 simple
+loops.
 
-Despite the fact that this virtual input method is based on connection virtual
-points, the resulting hand-made traces are not necessary straight lines, due to
-the "physical" disposition and diameter of the central and peripherial points the
-traces are just recognized between certain limits.
+Despite the fact that this virtual input method is based on connection
+virtual points, the resulting hand-made traces are not necessary straight
+lines, due to the "physical" disposition and diameter of the central and
+peripherial points the traces are just recognized between certain limits.
 
 The ascii alphabet symbols are distributed in order following the this rules
-starting by the [0, 1] line: short loops counterclockwise, short loops opposite
-direction clockwise, long loops counterclockwise, long loops opposite direction
-clockwise.
+starting by the [0, 1] line: short loops counterclockwise, short loops
+opposite direction clockwise, long loops counterclockwise, long loops
+opposite direction clockwise.
 
-This method is not conceived as predictive nor based on the most frequent letters
-by language, the disposition of the basic ascii symbols should be always the same.
-The patterns aren't recognized by specialized trace search algorithms but simply
-by the physical disposition of the input circle making it easy to implement and
-consistent to use.
+This method is not conceived as predictive nor based on the most frequent
+letters by language, the disposition of the basic ascii symbols should be
+always the same. The patterns aren't recognized by specialized trace search
+algorithms but simply by the physical disposition of the input circle making
+it easy to implement and consistent to use.
 
-A very basic Android (and SuperCollider) application is given as a proof of concept.
+A very basic Android (and SuperCollider) application is given as a proof of
+concept.
 
 
 ------
 Notes:
 
-There are related approaches to this input method, the most relevant is 8pen. Although
-this method was not conceived nor derived from that this shares the hand-prone trace
-conception. Aside form that fact, I think the trace building method differs
-substantially from the 8pen method and understands the basic traces as equal (almost
-in fact) to each other differing just by its sense and direction. There is no privilege
-to most frequent letters, they are all (almost) equal to trace (and distributed just
+There are related approaches to this input method, the most relevant is
+8pen. Although this method was not conceived nor derived from that this
+shares the hand-prone trace conception. Aside form that fact, I think the
+trace building method differs substantially from the 8pen method and
+understands the basic traces as equal (almost, in fact) to each other
+differing just by its sense and direction. There is no privilege to most
+frequent letters, they are all (almost) equal to trace (and distributed just
 in order), that is the original principle.
 
-This method was thought by me pondering many different possibilities and I think it is
-fairly original, any omission is not intentional. Do not hesitate in let me know if
-I'm wrong in something.
+This method was thought by me pondering many different possibilities and I
+think it is fairly original, any omission is not intentional. Do not
+hesitate in let me know if I'm wrong in something.
 
-I publish this because I don't have the time-money-resources to develop it and may be a
-good idea for free text input method. Although, obviously, as difficult to learn as the
-letters of the alphabet.
+I publish this because I don't have the time-money-resources to develop it
+and may be a good idea for a free text input method. Although, obviously, as
+difficult to learn as the letters of the alphabet.
 
-Think on the future (more than a project this is a theoretical proposition right now), go
-ahead if you want to develop this idea (please as GNU, as free as it is).
+Think on the future (more than a project this is a theoretical proposition
+right now), go ahead if you want to develop this idea (please as GNU, as
+free as it is).
 
 My best wishes.
 
@@ -127,3 +131,4 @@ Copying:
 
 The content of this writing is under Creative Commons Attribution 3.0 License.
 Copyright of the example code (Loops.java) is GNU GPLv3.
+
