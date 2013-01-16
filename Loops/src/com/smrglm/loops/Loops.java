@@ -1,3 +1,8 @@
+/*
+	Licence: GPLv3
+	Lucas Samaruga 2013
+*/
+
 package com.smrglm.loops;
 
 import android.os.Bundle;
@@ -21,31 +26,31 @@ public class Loops extends Activity {
 		public double y;
 		private double rad;
 		private double diameter;
-		
+
 		public Circle(double cx, double cy, double r) {
 			x = cx;
 			y = cy;
 			setRad(r);
 		}
-		
+
 		public void setRad(double r) {
 			rad = r;
 			diameter = r * 2;
 		}
-		
+
 		public double getRad() {
 			return rad;
 		}
-		
+
 		public void setDiameter(double d) {
 			diameter = d;
 			rad = d * 0.5;
 		}
-		
+
 		public double getDiameter() {
 			return diameter;
 		}
-		
+
 		public boolean contains(double px, double py) {
 			if(Math.pow(rad, 2) >= (Math.pow(px - x, 2) + Math.pow(py - y, 2))) {
 				return true;
@@ -53,27 +58,27 @@ public class Loops extends Activity {
 			return false;
 		}
 	}
-	
+
 	private static class KeyCircle extends Circle
 	{
 		public int id;
-		
+
 		public KeyCircle(double x, double y, double r) {
 			super(x, y, r);
 			id = -1;
 		}
 	}
-	
+
 	private static class KeyTrace
 	{
 		public Vector<Integer> list;
 		private KeyView view;
-		
+
 		public KeyTrace(KeyView v) {
 			list = new Vector<Integer>();
 			view = v;
 		}
-		
+
 		public void add(int id) {
 			if(!list.isEmpty() && id != list.lastElement()) {
 				if(id == -1) {
@@ -91,15 +96,15 @@ public class Loops extends Activity {
 			}
 		}
 	}
-	
+
 	private static class KeyABC
 	{
 		Vector<Vector<Integer>> dict;
-		
+
 		public KeyABC() {
 			dict = new Vector<Vector<Integer>>();
 			Vector<Integer> auxv;
-			
+
 			// loops simples a la derecha
 			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
 				auxv = new Vector<Integer>();
@@ -113,7 +118,7 @@ public class Loops extends Activity {
 			auxv.add(8);
 			auxv.add(1);
 			dict.add(auxv);
-			
+
 			// loops simples a la izquierda
 			for(int i = 0; i < 7; i++) { // 8(numPoints) - 1
 				auxv = new Vector<Integer>();
@@ -127,7 +132,7 @@ public class Loops extends Activity {
 			auxv.add(1);
 			auxv.add(8);
 			dict.add(auxv);
-			
+
 			// loops dobles a la derecha
 			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
 				auxv = new Vector<Integer>();
@@ -149,7 +154,7 @@ public class Loops extends Activity {
 			auxv.add(1);
 			auxv.add(2);
 			dict.add(auxv);
-			
+
 			// loops dobles a la izquierda
 			for(int i = 0; i < 6; i++) { // 8(numPoints) - 2
 				auxv = new Vector<Integer>();
@@ -172,7 +177,7 @@ public class Loops extends Activity {
 			auxv.add(8);
 			dict.add(auxv);
 		}
-		
+
 		public int atTrace(KeyTrace trace) {
 			Iterator<Vector<Integer>> it = dict.iterator();
 			while(it.hasNext()) {
@@ -185,9 +190,9 @@ public class Loops extends Activity {
 			return 0;
 		}
 	}
-	
+
 	static String globalText = "";
-	
+
 	private static class KeyView extends View {
 		private KeyCircle initPos;
 		private int numPoints = 8;
@@ -200,7 +205,7 @@ public class Loops extends Activity {
 		private Paint circlePaint;
 		private Paint textPaint;
 		public String text;
-		
+
 		public KeyView(Context context) {
     		super(context);
     		points = new Vector<KeyCircle>();
@@ -209,19 +214,19 @@ public class Loops extends Activity {
     		text = "";
     		initPaint();
     	}
-		
+
 		private void initPaint() {
 			circlePaint = new Paint();
 			circlePaint.setAntiAlias(true);
 			circlePaint.setColor(Color.BLACK);
-			
+
     		textPaint = new Paint();
     		textPaint.setAntiAlias(true);
     		textPaint.setTextAlign(Align.LEFT);
     		textPaint.setTextSize(30);
     		textPaint.setColor(Color.BLACK);
 		}
-		
+
     	@Override
     	protected void onDraw(Canvas canvas) {
     		canvas.drawText(text, 0, 30, textPaint);
@@ -232,11 +237,11 @@ public class Loops extends Activity {
     			canvas.drawCircle((float)aux.x, (float)aux.y, (float)aux.getRad(), circlePaint);
     		}
     	}
-    	
+
     	@Override
     	public boolean onTouchEvent(MotionEvent event) {
     		KeyCircle auxPoint = null;
-    		
+
     		if(event.getAction() == MotionEvent.ACTION_DOWN) {
     			initPos = new KeyCircle(event.getX(), event.getY(), prad);
     			initPos.id = 0;
@@ -259,20 +264,20 @@ public class Loops extends Activity {
     			trace.add(-1); // limpia y deber'ia llamar a la accion
     			this.invalidate();
     		}
-    		
+
     		//this.invalidate();
     		return true;
     	}
-    	
+
     	public void calcPoints() {
     		double step = startAngle;
     		KeyCircle auxPoint;
-    		
+
     		points.clear();
-    		
+
     		if(initPos != null) {
     			points.add(initPos);
-    			
+
     			for(int i = 0; i < numPoints; i++) {
     				auxPoint = new KeyCircle(
     						Math.sin(step) * maxDist + initPos.x,
@@ -285,7 +290,7 @@ public class Loops extends Activity {
     			}
     		};
     	}
-    	
+
     	public KeyCircle pointFromPos(double x, double y) {
     		Iterator<KeyCircle> it = points.iterator();
     		while(it.hasNext()) {
@@ -296,7 +301,7 @@ public class Loops extends Activity {
     		}
     		return null;
     	}
-    	
+
     	// callback...
     	public void traceCompleteAction() {
     		Vector<Integer> space = new Vector<Integer>();
@@ -305,7 +310,7 @@ public class Loops extends Activity {
     		//delback.add(0); delback.add(7);
     		Vector<Integer> enter = new Vector<Integer>();
     		enter.add(0); enter.add(3); enter.add(2); enter.add(3);
-    		
+
     		Vector<Integer> auxt = trace.list;
     		if(auxt.equals(space)) text = text + " ";
     		//else if(auxt.equals(delback)) text = text + '\r';
@@ -314,7 +319,7 @@ public class Loops extends Activity {
     		this.invalidate();
     	}
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
